@@ -144,7 +144,11 @@ func newHandler(connCtx context.Context, conn jsonWriter, idgen func() ID, reg *
 	}
 
 	if conn.remoteAddr() != "" {
-		h.logger = h.logger.New("conn", conn.remoteAddr())
+		addr := conn.remoteAddr()
+		if v := connCtx.Value("X-Forwarded-For"); v != nil {
+			addr = v.(string)
+		}
+		h.logger = h.logger.New("conn", addr)
 	}
 	h.unsubscribeCb = newCallback(reflect.Value{}, reflect.ValueOf(h.unsubscribe), "unsubscribe", h.logger)
 

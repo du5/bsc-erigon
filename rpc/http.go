@@ -255,6 +255,9 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	connInfo.HTTP.UserAgent = r.Header.Get("User-Agent")
 	ctx := r.Context()
 	ctx = context.WithValue(ctx, peerInfoContextKey{}, connInfo)
+	if xForward := r.Header.Get("X-Forwarded-For"); xForward != "" {
+		ctx = context.WithValue(ctx, "X-Forwarded-For", xForward)
+	}
 
 	// All checks passed, create a codec that reads directly from the request body
 	// until EOF, writes the response to w, and orders the server to process a
