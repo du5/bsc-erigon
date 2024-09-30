@@ -155,36 +155,15 @@ func (api *APIImpl) EstimateGas(ctx context.Context, argsOrNil *ethapi2.CallArgs
 		args.From = new(libcommon.Address)
 	}
 
-	bNrOrHash := rpc.BlockNumberOrHashWithNumber(rpc.PendingBlockNumber)
-	if blockNrOrHash != nil {
-		bNrOrHash = *blockNrOrHash
-	}
-
 	// Determine the highest gas limit can be used during the estimation.
-	if args.Gas != nil && uint64(*args.Gas) >= params.TxGas {
-		hi = uint64(*args.Gas)
+	if args.Gas != nil {
+		if uint64(*args.Gas) > api.GasCap {
+			hi = api.GasCap
+		} else {
+			hi = uint64(*args.Gas)
+		}
 	} else {
-		// Retrieve the block to act as the gas ceiling
-		h, err := headerByNumberOrHash(ctx, dbtx, bNrOrHash, api)
-		if err != nil {
-			return 0, err
-		}
-		if h == nil {
-			// if a block number was supplied and there is no header return 0
-			if blockNrOrHash != nil {
-				return 0, nil
-			}
-
-			// block number not supplied, so we haven't found a pending block, read the latest block instead
-			h, err = headerByNumberOrHash(ctx, dbtx, latestNumOrHash, api)
-			if err != nil {
-				return 0, err
-			}
-			if h == nil {
-				return 0, nil
-			}
-		}
-		hi = h.GasLimit
+		hi = api.GasCap / 10
 	}
 
 	var feeCap *big.Int
