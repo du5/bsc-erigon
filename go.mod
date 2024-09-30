@@ -118,6 +118,7 @@ require (
 require (
 	github.com/cosmos/gogoproto v1.4.1 // indirect
 	github.com/d4l3k/messagediff v1.2.1 // indirect
+	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/elastic/go-freelru v0.13.0 // indirect
 	github.com/erigontech/speedtest v0.0.2 // indirect
 	github.com/go-kit/kit v0.12.0 // indirect
@@ -136,6 +137,7 @@ require (
 	github.com/petermattis/goid v0.0.0-20180202154549-b0b1615b78e5 // indirect
 	github.com/prysmaticlabs/fastssz v0.0.0-20221107182844-78142813af44 // indirect
 	github.com/rcrowley/go-metrics v0.0.0-20201227073835-cf1acfcdf475 // indirect
+	github.com/redis/go-redis/v9 v9.6.1 // indirect
 	github.com/sasha-s/go-deadlock v0.3.1 // indirect
 	github.com/tecbot/gorocksdb v0.0.0-20191217155057-f0fad39f321c // indirect
 	github.com/tklauser/go-sysconf v0.3.14 // indirect
